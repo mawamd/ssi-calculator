@@ -22,6 +22,8 @@ def get_insulin_doses(slide_scale):
 slide_scale = input("Enter sliding scale here: ")
 glucose_ranges, insulin_doses = get_insulin_doses(slide_scale)
 
+print()  # This line is added to create a newline after user input
+
 for i in range(len(insulin_doses)):
     insulin_doses[i] = float(insulin_doses[i])
     if i == len(insulin_doses) - 1:

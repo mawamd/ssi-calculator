@@ -1,0 +1,33 @@
+def create_ranges_and_doses(correction_factor, glucose_drop, start_insulin_dose):
+    # Calculate the number of ranges above the start_insulin_dose
+    num_ranges = int((400 - start_insulin_dose) / glucose_drop)
+    
+    # Initialize the glucose ranges and insulin doses
+    glucose_ranges = [(70, start_insulin_dose)]
+    insulin_doses = [0]
+    
+    # Generate the glucose ranges and insulin doses
+    for i in range(num_ranges):
+        # Calculate the lower and upper limits of the glucose range
+        lower_limit = start_insulin_dose + 1 + i * glucose_drop
+        upper_limit = lower_limit + glucose_drop - 1
+        
+        # Calculate the insulin dose
+        insulin_dose = i * correction_factor
+
+        glucose_ranges.append((lower_limit, upper_limit))
+        insulin_doses.append(insulin_dose)
+    
+    return glucose_ranges, insulin_doses
+
+# Ask the user for the sliding scale, glucose drop, and start_insulin_dose
+user_input = input("Input desired prandial insulin instructions (format 'X:Y>Z' where X is the correction factor, Y is the glucose drop, and Z is the start of insulin doses): ")
+correction_factor, glucose_drop, start_insulin_dose = map(float, user_input.replace('>', ':').split(':'))
+
+# Call the function with the user's inputs
+glucose_ranges, insulin_doses = create_ranges_and_doses(correction_factor, glucose_drop, start_insulin_dose)
+for i in range(len(glucose_ranges)):
+    dose = float(insulin_doses[i])
+    if dose.is_integer():
+        dose = int(dose)
+    print(f"{int(glucose_ranges[i][0])}-{int(glucose_ranges[i][1])} : {dose} units")
